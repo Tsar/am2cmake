@@ -24,20 +24,29 @@ def needReplacement(mkf):
         res.add(x)
     return res
 
+def getRidOfMultilines(mkf):
+    with open(mkf, "r") as f:
+        s = f.read()
+    s = re.sub(r'\s*\\\s*\n\s*', r' ', s)
+    with open(mkf, "w") as f:
+        f.write(s)
+
 def findValue(mkf, var):
     varName = var[2:-1]
     with open(mkf, "r") as f:
         s = f.read()
     #print "Searching [%s] in [%s]" % (varName, mkf)
-    x = re.search(r'%s\s*=\s*(.*)$' % varName, s)
+    x = re.search(r'%s\s*=\s*(.*)' % varName, s)
     if x != None:
-        print x.groups()
+        print x.group(1)
 
 if __name__ == "__main__":
     mkfList = scanDir("/home/volkov/work/dev/ext/src/GraphicsMagick-1.3.14")
     nr = set()
     for mkf in mkfList:
         nr |= needReplacement(mkf)
+        getRidOfMultilines(mkf)
     for var in nr:
         for mkf in mkfList:
             findValue(mkf, var)
+    findValue("/home/volkov/work/dev/ext/src/GraphicsMagick-1.3.14/Makefile.am", "$(RPMDIR)")
