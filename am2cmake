@@ -15,7 +15,7 @@ BuildKDE4=2
 $withConv=false
 
 
-$buildType=BuildKDE4
+$buildType=BuildNoKDE
 
 $allTargets=Array.new
 
