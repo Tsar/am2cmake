@@ -250,7 +250,7 @@ class CMakeFile
 
       @configHeaders=Array.new
       $configHeaders.each do  |header|
-         @configHeaders.push($1) if header=~ Regexp.new("^"+@path+"([^\\/]+\\.h)\\.in")
+         @configHeaders.push($1) if header=~ Regexp.new("^"+@path.gsub("+", /\\/.source + "+")+"([^\\/]+\\.h)\\.in")
       end
 
       parseFile
